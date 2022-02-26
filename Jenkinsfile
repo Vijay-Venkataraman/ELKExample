@@ -17,14 +17,9 @@ node {
 	}
 	
 	stage('Publish') {
-	      when {
-		branch 'master'
-	      }
-      	     steps {
                 withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
                 sh 'docker push vijayvenkataraman/springelk:latest'
                 }
-	     }
         }
 
 	stage('Deploy') {

@@ -23,7 +23,8 @@ node {
       	     steps {
                 withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
                 sh 'docker push vijayvenkataraman/springelk:latest'
-             }
+                }
+	     }
         }
 
 	stage('Deploy') {

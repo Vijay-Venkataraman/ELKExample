@@ -10,11 +10,21 @@ node {
 	}
 
 	stage('Push image') {
-		withDockerRegistry([ credentialsId: "dockerHub", url: "https://hub.docker.com/repository/docker/vijayvenkataraman/study" ]) {
+		withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
 		app.push()
 		app.push("latest")
+	        }
 	}
-	}
+	
+	stage('Publish') {
+	      when {
+		branch 'master'
+	      }
+      	     steps {
+                withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
+                sh 'vijayvenkataraman/springelk:latest'
+             }
+        }
 
 	stage('Deploy') {
 		sh ("docker run -d -p 81:8080 -v /var/log/:/var/log/ ${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
